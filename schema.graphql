@@ -1,0 +1,24 @@
+scalar Upload
+
+type S3File {
+  location: String!
+}
+
+input UploadFile {
+  file: Upload!
+}
+
+type Query {
+  files: [S3File]
+}
+
+type Mutation {
+  upload(file: Upload!): S3File!
+  multipleUpload(
+    appName: String!
+    files: [UploadFile!]!
+    table: String
+    column: String
+    requireAbsPath: Boolean
+  ): [S3File!]!
+}
