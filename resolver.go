@@ -18,13 +18,15 @@ func (r *Resolver) Query() QueryResolver {
 type mutationResolver struct{ *Resolver }
 
 func (r *mutationResolver) Upload(ctx context.Context, file graphql.Upload) (*S3File, error) {
-        result, err := S3Upload("satang-expensy", file)
-        if err != nil {
-                return nil, err
-        }
-        s3File := S3File{Location: result.Location}
-        return &s3File, nil
+	result, err := S3Upload("satang-expensy", file)
+	if err != nil {
+		return nil, err
+	}
+	s3File := S3File{Location: result.Location}
+	// TODO: update DB as well
+	return &s3File, nil
 }
+
 func (r *mutationResolver) MultipleUpload(ctx context.Context, appName string, files []*UploadFile, table *string, column *string, requireAbsPath *bool) ([]*S3File, error) {
 	panic("not implemented")
 }
@@ -32,5 +34,9 @@ func (r *mutationResolver) MultipleUpload(ctx context.Context, appName string, f
 type queryResolver struct{ *Resolver }
 
 func (r *queryResolver) Files(ctx context.Context) ([]*S3File, error) {
-	panic("not implemented")
+	// TODO: probably fetching from DB to answer
+	TestDB()
+	return nil, nil
+	// panic("not implemented")
+
 }
